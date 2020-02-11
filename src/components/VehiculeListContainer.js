@@ -32,7 +32,6 @@ class VehiculeListContainer extends Component {
 
     render() {
         const { data, items } = this.state;
-        console.log(this.state.items);
         return (
             <div className="vehicule-list">
                 <VehiculeList 
