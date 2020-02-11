@@ -6,8 +6,9 @@ import mockVehicule from '../../dist/mocks/vehicule.json'
 import VehiculeItem from './VehiculeItem';
 configure({ adapter: new Adapter() });
 
+// more dom components tests here
+
 test('Vehicule DOM rendering', () => {
   const vehicule = shallow(<VehiculeItem vehicule={mockVehicule} cardVehicules={[]} />);
   expect(vehicule.find("img")).toHaveLength(1);
-
 });

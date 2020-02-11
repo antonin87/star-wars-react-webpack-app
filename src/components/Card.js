@@ -7,11 +7,11 @@ const Card = ({items}) => {
         return total;
     })
     const totalCredit = total > 0 ? (
-        <p>Card : {total} Crédit Galactique Républicain</p>
+        <p>Cout : {total} Crédit Galactique Républicain</p>
     ) : null;
     return (
     <div className="card">
-        <p>Card : {items.length} Items</p>
+        <p>{items.length} {items.length === 1 ? 'vaisseau' : 'vaisseaux'}</p>
         {totalCredit}
         </div>
     )
