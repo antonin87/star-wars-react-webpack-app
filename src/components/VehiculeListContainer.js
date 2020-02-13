@@ -1,49 +1,37 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import VehiculeList from './VehiculeList';
 import Card from './Card';
 
-class VehiculeListContainer extends Component {
+const VehiculeListContainer = () => {
+    const [data, setData ] = useState([]);
+    const [items, setItems ] = useState([]);
 
-    constructor(props) {
-        super(props);
-        this.handleAddItem = this.handleAddItem.bind(this);
-        this.handleRemoveItem = this.handleRemoveItem.bind(this);
-    }
-
-    state = {
-        data: [],
-        items: []
-    }
-
-    componentDidMount() {
+    useEffect(() => {
         const url = 'https://cors-anywhere.herokuapp.com/https://swapi.co/api/vehicles';
         fetch(url)
         .then(response => response.json())
-        .then(result => this.setState({data: result.results}));
+        .then(result => setData(result.results));
+    }, []);
+
+    const handleAddItem = (item) => {
+        setItems([...items, item]);
     }
 
-    handleAddItem(item) {
-        this.setState({items:  [...this.state.items, item]});
+    const handleRemoveItem = (item) => {
+        setItems(items.filter(i => i.name !== item.name));
     }
-
-    handleRemoveItem(item) {
-        this.setState({items: this.state.items.filter(i => i.name !== item.name)});
-    }
-
-    render() {
-        const { data, items } = this.state;
-        return (
-            <div className="vehicule-list">
-                <VehiculeList 
-                    vehicules={data} 
-                    cardVehicules={items}
-                    onAddItem={this.handleAddItem} 
-                    onRemoveItem={this.handleRemoveItem} 
-                />
-                <Card items={items} />
-            </div>
-        )
-    }
+    return (
+        <div className="vehicule-list">
+            <VehiculeList 
+                vehicules={data} 
+                cardVehicules={items}
+                onAddItem={handleAddItem} 
+                onRemoveItem={handleRemoveItem} 
+            />
+            <Card items={items} />
+        </div>
+    )
+    
 
 }
 

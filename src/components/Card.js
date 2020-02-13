@@ -2,10 +2,7 @@ import React from 'react';
 
 const Card = ({items}) => {
     let total = 0;
-    items.map(i => {
-         total += +i.cost_in_credits
-        return total;
-    })
+    items.map(i => total += +i.cost_in_credits)
     const totalCredit = total > 0 ? (
         <p>Cout : {total} Crédit Galactique Républicain</p>
     ) : null;
@@ -13,7 +10,7 @@ const Card = ({items}) => {
     <div className="card">
         <p>{items.length} {items.length === 1 ? 'vaisseau' : 'vaisseaux'}</p>
         {totalCredit}
-        </div>
+    </div>
     )
 }
 

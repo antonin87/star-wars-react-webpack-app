@@ -1,46 +1,43 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class VehiculeItem extends Component {
-    state = {
-        isActive: false,
-        price: 0,
+const VehiculeItem = ({vehicule, cardVehicules, onAddItem, onRemoveItem}) => {
+
+    const hideExtraDetails = () => {
+        const extraInfosSelectors = document.querySelectorAll('.vehicule .extra-infos');
+        extraInfosSelectors.forEach((selector) => selector.classList.remove('active'));
     }
 
-    showDetails(e) {
-        const extraInfosSelectors = document.querySelectorAll('.vehicule .extra-infos');
+    const showDetails = (e) => {
+        hideExtraDetails();
         const extraInfoTarget = e.target.nextSibling;
-        extraInfosSelectors.forEach((selector) => selector.classList.remove('active'));
         extraInfoTarget.classList.add('active');
     }
 
-    addCard(vehicule) {
-        const extraInfosSelectors = document.querySelectorAll('.vehicule .extra-infos');
-        extraInfosSelectors.forEach((selector) => selector.classList.remove('active'));
-        this.props.onAddItem(vehicule);
+    const addCard = (vehicule) => {
+        hideExtraDetails();
+        onAddItem(vehicule);
     }
 
-    removeCard(vehicule) {
-        const extraInfosSelectors = document.querySelectorAll('.vehicule .extra-infos');
-        extraInfosSelectors.forEach((selector) => selector.classList.remove('active'));
-        this.props.onRemoveItem(vehicule);
+    const removeCard = (vehicule) => {
+        hideExtraDetails();
+        onRemoveItem(vehicule);
     }
 
-    render() {
-        const { vehicule, cardVehicules } = this.props;
-        let alreadyReserved = cardVehicules.some(v => v.name === vehicule.name);
-        let removeButton = (
-            <li><button onClick={ (e) => this.removeCard(vehicule)}>Annuler ma réservation</button></li>
-        );
-        let reservedButton = (alreadyReserved === false) ? (
-            <li><button onClick={ (e) => this.addCard(vehicule)}>Reserver</button></li>
-        ) : (
-            <li><button disabled>Déja réservé</button></li>
-        );
-        
-        if (vehicule.cost_in_credits === 'unknown') {
-            reservedButton = <li>Ce véhicule n'est pas disponible à la location</li>;
-            removeButton = null;
-        }
+    let alreadyReserved = cardVehicules.some(v => v.name === vehicule.name);
+    let removeButton = (
+        <li><button onClick={ (e) => removeCard(vehicule)}>Annuler ma réservation</button></li>
+    );
+    let reservedButton = (alreadyReserved === false) ? (
+        <li><button onClick={ (e) => addCard(vehicule)}>Reserver</button></li>
+    ) : (
+        <li><button disabled>Déja réservé</button></li>
+    );
+    
+    if (vehicule.cost_in_credits === 'unknown') {
+        reservedButton = <li>Ce véhicule n'est pas disponible à la location</li>;
+        removeButton = null;
+    }
+
         return (
             <ul className="vehicule" >
                 <li><img src="http://localhost:8080/images/ship.jpg" /></li>
@@ -49,7 +46,7 @@ class VehiculeItem extends Component {
                 <li>Model : {vehicule.model}</li>
                 <li>Capacity : {vehicule.passengers}</li>
                 <li className="details">
-                    <button onClick={ (e) => this.showDetails(e)}>Show Details</button>
+                    <button onClick={ (e) => showDetails(e)}>Show Details</button>
                     <ul className="extra-infos">
                         <li>Length : {vehicule.length}</li>
                         <li>Max Atmosphering speed : {vehicule.max_atmosphering_speed}</li>
@@ -64,9 +61,6 @@ class VehiculeItem extends Component {
                 </li>
            </ul>
         )
-    }
-
-
 }
 
 export default VehiculeItem;

@@ -2,6 +2,7 @@ import React from 'react';
 import VehiculeItem from './VehiculeItem';
 
 const VehiculeList = ({vehicules, onAddItem, onRemoveItem, cardVehicules}) => {
+    console.log(cardVehicules)
   const vehiculeItems = vehicules.map((v, index) => {
         return (
            <React.Fragment key={index}>

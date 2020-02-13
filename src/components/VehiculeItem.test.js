@@ -11,4 +11,5 @@ configure({ adapter: new Adapter() });
 test('Vehicule DOM rendering', () => {
   const vehicule = shallow(<VehiculeItem vehicule={mockVehicule} cardVehicules={[]} />);
   expect(vehicule.find("img")).toHaveLength(1);
+  
 });
